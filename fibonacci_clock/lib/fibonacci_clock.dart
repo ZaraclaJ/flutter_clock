@@ -16,16 +16,22 @@ class FibonacciClock extends StatelessWidget {
   Widget build(BuildContext context) {
     final fibonacciHour = _dateTime.hour % 12;
     final hourConfig = getFibonacciConfig(fibonacciHour);
-
     final fibonacciMinute = _dateTime.minute ~/ 5;
     final minuteConfig = getFibonacciConfig(fibonacciMinute) * 2;
-
     final config = hourConfig & minuteConfig;
+
+    final List<FibonacciBox> boxes = [];
+    for (var i = 0; i < config.length; i++) {
+      boxes.add(FibonacciBox(
+        color: getColor(config[i]),
+        delay: i,
+      ));
+    }
 
     return Container(
       color: Colors.black,
       child: FibonacciGrid(
-        children: (config).map((i) => FibonacciBox(color: getColor(i))).toList(),
+        children: boxes,
       ),
     );
   }
