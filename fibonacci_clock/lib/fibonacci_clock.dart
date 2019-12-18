@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:digital_clock/fibonacci_box.dart';
 import 'package:digital_clock/fibonacci_grid.dart';
 import 'package:digital_clock/fibonacci_map.dart';
 import 'package:digital_clock/list_extensions.dart';
@@ -52,24 +53,5 @@ class FibonacciClock extends StatelessWidget {
       default:
         return Colors.transparent;
     }
-  }
-}
-
-class FibonacciBox extends StatelessWidget {
-  FibonacciBox({Key key, @required this.color}) : super(key: key);
-
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 2,
-          color: Theme.of(context).unselectedWidgetColor,
-        ),
-        color: color,
-      ),
-    );
   }
 }
