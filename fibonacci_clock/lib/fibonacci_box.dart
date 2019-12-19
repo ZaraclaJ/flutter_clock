@@ -13,7 +13,7 @@ class FibonacciBox extends StatefulWidget {
     this.finalAngle = pi,
   }) : super(key: key);
 
-  final Color color;
+  final FibonacciColor color;
   final int delay;
   final Duration duration;
   final double finalAngle;
@@ -26,8 +26,8 @@ class FibonacciBox extends StatefulWidget {
 class _FibonacciBoxState extends State<FibonacciBox> with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _animation;
-  Color _currentColor;
-  Color _oldColor;
+  FibonacciColor _currentColor;
+  FibonacciColor _oldColor;
   bool _rotationX;
 
   @override
@@ -76,10 +76,12 @@ class _FibonacciBoxState extends State<FibonacciBox> with SingleTickerProviderSt
                 width: 2,
                 color: Theme.of(context).unselectedWidgetColor,
               ),
-              color: FibonacciUtils.getColor(
-                animationValue: _animation.value,
-                currentColor: _currentColor,
-                oldColor: _oldColor,
+              color: FibonacciUtils.getColorFromFibonacciColor(
+                FibonacciUtils.getColor(
+                  animationValue: _animation.value,
+                  currentColor: _currentColor,
+                  oldColor: _oldColor,
+                ),
               ),
             ),
           ),

@@ -1,12 +1,11 @@
 import 'dart:math';
 
 import 'package:digital_clock/fibonacci_utils.dart';
-import 'package:flutter/material.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final currentColor = Colors.black;
-  final oldColor = Colors.white;
+  final currentColor = FibonacciColor.red;
+  final oldColor = FibonacciColor.green;
 
   group('Get color during rotation', () {
     test('animation value = 0', () {
