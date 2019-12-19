@@ -7,40 +7,63 @@ import 'package:digital_clock/fibonacci_utils.dart';
 import 'package:digital_clock/list_extensions.dart';
 import 'package:flutter/material.dart';
 
-class FibonacciClock extends StatelessWidget {
+class FibonacciClock extends StatefulWidget {
   const FibonacciClock({@required DateTime dateTime}) : _dateTime = dateTime;
 
   final DateTime _dateTime;
   static Random random = Random();
 
   @override
-  Widget build(BuildContext context) {
-    final fibonacciHour = _dateTime.hour % 12;
+  _FibonacciClockState createState() => _FibonacciClockState();
+}
+
+class _FibonacciClockState extends State<FibonacciClock> {
+  List<FibonacciBox> _boxes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _updateBoxes();
+  }
+
+  @override
+  void didUpdateWidget(FibonacciClock oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget._dateTime != widget._dateTime) {
+      _updateBoxes();
+    }
+  }
+
+  void _updateBoxes() {
+    final fibonacciHour = widget._dateTime.hour % 12;
     final hourConfig = _getFibonacciConfig(fibonacciHour);
-    final fibonacciMinute = _dateTime.minute ~/ 5;
+    final fibonacciMinute = widget._dateTime.minute ~/ 5;
     final minuteConfig = _getFibonacciConfig(fibonacciMinute) * 2;
     final config = hourConfig & minuteConfig;
 
-    final List<FibonacciBox> boxes = [];
+    _boxes.clear();
     for (var i = 0; i < config.length; i++) {
-      boxes.add(FibonacciBox(
+      _boxes.add(FibonacciBox(
         color: FibonacciUtils.getFibonacciColor(config[i]),
         delay: i,
         orientation: i % 4,
       ));
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
       child: FibonacciGrid(
-        children: boxes,
+        children: _boxes,
       ),
     );
   }
 
   List<int> _getFibonacciConfig(int time) {
     final allMatched = fibonacciMap[time];
-    final rng = random.nextInt(allMatched.length);
+    final rng = FibonacciClock.random.nextInt(allMatched.length);
     return allMatched[rng];
   }
 }
