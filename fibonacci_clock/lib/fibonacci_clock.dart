@@ -7,24 +7,27 @@ import 'package:digital_clock/list_extensions.dart';
 import 'package:flutter/material.dart';
 
 class FibonacciClock extends StatelessWidget {
-  const FibonacciClock({@required DateTime dateTime}) : _dateTime = dateTime;
+  FibonacciClock({@required DateTime dateTime}) : _dateTime = dateTime;
 
-  final DateTime _dateTime;
+  DateTime _dateTime;
   static Random random = Random();
 
   @override
   Widget build(BuildContext context) {
+    // TODO : uncomment
+    _dateTime = DateTime(0, 0, 0, 6, 30);
     final fibonacciHour = _dateTime.hour % 12;
-    final hourConfig = getFibonacciConfig(fibonacciHour);
+    final hourConfig = _getFibonacciConfig(fibonacciHour);
     final fibonacciMinute = _dateTime.minute ~/ 5;
-    final minuteConfig = getFibonacciConfig(fibonacciMinute) * 2;
+    final minuteConfig = _getFibonacciConfig(fibonacciMinute) * 2;
     final config = hourConfig & minuteConfig;
 
     final List<FibonacciBox> boxes = [];
     for (var i = 0; i < config.length; i++) {
       boxes.add(FibonacciBox(
-        color: getColor(config[i]),
+        color: _getColor(config[i]),
         delay: i,
+        orientation: i % 4,
       ));
     }
 
@@ -36,13 +39,13 @@ class FibonacciClock extends StatelessWidget {
     );
   }
 
-  List<int> getFibonacciConfig(int time) {
+  List<int> _getFibonacciConfig(int time) {
     final allMatched = fibonacciMap[time];
     final rng = random.nextInt(allMatched.length);
     return allMatched[rng];
   }
 
-  Color getColor(int i) {
+  Color _getColor(int i) {
     switch (i) {
       case 0:
         return Colors.yellow;
